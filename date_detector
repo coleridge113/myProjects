@@ -1,0 +1,65 @@
+import re
+from collections import namedtuple
+
+"""
+Using RegEx, this program detects dates in a body of text
+where dates are formatted as'DD/MM/YYYY'.
+RegEx matching objects are turned into named tuples.
+Named tuple is passed onto function that validates the date's
+correctness.
+"""
+
+# Sample text body with date.
+text_with_date = "15/08/1996 is my birthday" \
+                 "Jen's birthday is 12/07/1996"
+
+
+# Creating RegEx object and using 'findall()' method.
+dateRegex = re.compile(r"((\d\d)/(\d\d)/(\d\d\d\d))")
+mo = dateRegex.findall(text_with_date)
+
+# Instantiating namedtuple.
+Date = namedtuple("Date", "date day month year")
+dates = list()
+for i in range(len(mo)):
+    date = Date(mo[i][0], mo[i][1], mo[i][2], mo[i][3])
+    dates.append(date)
+
+# Date validation function
+def is_valid_date(date):
+    valid_date = False
+    
+    month_dict = {
+        '31days': ['01', '03', '05', '07', '08', '10', '12'],
+        '30days': ['04', '06', '09', '11'],
+        '28days': ['02']
+        }
+    if date.month in month_dict['31days']:
+        if int(date.day) <= 31 and int(date.day):
+            valid_date = True
+    elif date.month in month_dict['30days']:
+        if int(date.day) <= 30 and int(date.day):
+            valid_date = True
+    elif date.month in month_dict['28days']:
+        if int(date.year) % 100:         
+            if not int(date.year) % 4:
+                if int(date.day) <= 29:
+                    valid_date = True
+            else:
+                if int(date.day) <= 28:
+                    valid_date = True
+        elif not int(date.year) % 100:  
+            if not int(date.year) % 400:
+                if int(date.day) <= 29:
+                    valid_date = True
+            else:
+                if int(date.day) <= 28:
+                    valid_date = True
+
+    if valid_date:
+        return True
+    return False
+
+# Loops through list of dates and validates each one.
+for date in dates:
+    is_valid_date(date)
