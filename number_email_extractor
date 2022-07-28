@@ -1,0 +1,51 @@
+import re, pyperclip
+
+
+# Mobile number extractor
+def mobile_number_extractor(text):
+    """Returns a list of mobile numbers from a body of text."""
+    phoneRegex = re.compile(r"""(
+        ((\()?(\+)?63(\))?|0)       # Country code
+        (9\d{2})                    # Network provider code
+        (\s|-|\.)?                  # Separator
+        (\d{3})                     # Three mid numbers
+        (\s|-|\.)?                  # Separator
+        (\d{4})                     # Last four digits
+        )""", re.VERBOSE)
+
+    extracted_mobile_numbers = phoneRegex.findall(text)
+    mobile_numbers = [i[0] for i in extracted_mobile_numbers \
+                      if len(i[0]) >= 11]
+    return mobile_numbers
+
+
+# Email extractor
+def email_extractor(text):
+    """Returns a list of email addresses from a body of text."""
+    emailRegex = re.compile(r"""(
+            [a-zA-Z0-9._%+-]+      # username
+            @                      # @ symbol
+            [a-zA-Z0-9.-]+         # domain name
+            (\.[a-zA-Z]{2,4})      # dot-something
+            )""", re.VERBOSE)
+
+    extracted_emails = emailRegex.findall(text)
+    emails = [i[0] for i in extracted_emails]
+    return emails
+
+
+pyperclip.copy('')          # Empties clipboard
+matches = list()
+text = str()
+
+while not matches:          # Program will work only once before the loop breaks.
+    text = str(pyperclip.paste())
+    if text:
+        for num in mobile_number_extractor(text):
+            matches.append(num)
+        for email in email_extractor(text):
+            matches.append(email)
+        
+        if matches:
+            print("Found numbers/emails from clipboard:")
+            print("\n".join(matches))
