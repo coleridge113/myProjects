@@ -43,17 +43,17 @@ def is_valid_date(date):
     elif date.month in month_dict['28days']:
         if int(date.year) % 100:         
             if not int(date.year) % 4:
-                if int(date.day) <= 29:
+                if int(date.day) <= 29 and int(date.day):
                     valid_date = True
             else:
-                if int(date.day) <= 28:
+                if int(date.day) <= 28 and int(date.day):
                     valid_date = True
         elif not int(date.year) % 100:  
             if not int(date.year) % 400:
-                if int(date.day) <= 29:
+                if int(date.day) <= 29 and int(date.day):
                     valid_date = True
             else:
-                if int(date.day) <= 28:
+                if int(date.day) <= 28 and int(date.day):
                     valid_date = True
 
     if valid_date:
