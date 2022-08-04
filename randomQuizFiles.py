@@ -1,5 +1,7 @@
 import random
 
+# Create dictionary of US States as keys 
+# and their corresponding capitals as values
 capitals = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona': 'Phoenix',
 'Arkansas': 'Little Rock', 'California': 'Sacramento', 'Colorado': 'Denver',
 'Connecticut': 'Hartford', 'Delaware': 'Dover', 'Florida': 'Tallahassee',
@@ -19,38 +21,9 @@ capitals = {'Alabama': 'Montgomery', 'Alaska': 'Juneau', 'Arizona': 'Phoenix',
 'West Virginia': 'Charleston', 'Wisconsin': 'Madison',
 'Wyoming': 'Cheyenne'}
 
-##for quizNum in range(35):
-##    quizFile = open(f'quizGame/capitalsquiz{quizNum + 1}.txt', 'w')
-##    answerKeyFile = open(f'quizGame/capitalsquiz_answers{quizNum + 1}.txt', 'w')
-##
-##    quizFile.write('Name:\nDate:\n\nPeriod:\n\n')
-##    quizFile.write((' ' * 20) + f'State Capitals Quiz (Form{quizNum + 1})')
-##    quizFile.write('\n\n')
-##
-##    states = list(capitals.keys())
-##    random.shuffle(states)
-##
-##    for questionNum in range(50):
-##        correctAnswer = capitals[states[questionNum]]
-##        wrongAnswers = list(capitals.values())
-##        del wrongAnswers[wrongAnswers.index(correctAnswer)]
-##        wrongAnswers = random.sample(wrongAnswers, 3)
-##        answerOptions = wrongAnswers + [correctAnswer]
-##        random.shuffle(answerOptions)
-##
-##        quizFile.write(f'{questionNum + 1}. What is the capital of '
-##                        f'{states[questionNum]}?\n')
-##        for i in range(4):
-##            quizFile.write(f"   {'ABCD'[i]}. { answerOptions[i]}\n")
-##            quizFile.write('\n')
-##
-##        answerKeyFile.write(f"{questionNum + 1}. "
-##                            f"{'ABCD'[answerOptions.index(correctAnswer)]}\n")
-##quizFile.close()
-##answerKeyFile.close()
-
-
+# Create 35 copies of quiz forms with shuffled questions.
 for quizNum in range(35):
+    # Create folder 'quizGame' where a quiz file and answer key file will be written to.
     quizFile = open(f'quizGame/capitalsquiz{quizNum + 1}.txt', 'w')
     answerKeyFile = open(f'quizGame/capitalsquiz_answers{quizNum + 1}.txt', 'w')
 
@@ -61,21 +34,24 @@ for quizNum in range(35):
     states = list(capitals.keys())
     random.shuffle(states)
 
+    # Create 50 shuffled questions. 
     for questionNum in range(50):
         correctAnswer = capitals[states[questionNum]]
         wrongAnswers = list(capitals.values())
-        del wrongAnswers[wrongAnswers.index(correctAnswer)]
-        wrongAnswers = random.sample(wrongAnswers, 3)
+        del wrongAnswers[wrongAnswers.index(correctAnswer)]     # Correct answer is deleted from the wrongAnswers list.
+        wrongAnswers = random.sample(wrongAnswers, 3)           # wrongAnswers list is reduced to 3 samples from the initial list.
         answerOptions = wrongAnswers + [correctAnswer]
         random.shuffle(answerOptions)
 
         quizFile.write(f"\n{questionNum + 1}. What is the capital of "
                        f"{states[questionNum]}?\n")
-        answerKeyFile.write(f"{questionNum + 1}. "
-                            f"{'ABCD'[answerOptions.index(correctAnswer)]}\n")
-
+        # Create multiple choice of 4 choices.
         for i in range(4):
             quizFile.write('\t' + f"{'ABCD'[i]}. {answerOptions[i]}\n")
+           
+        # Write the correct answers in the answer key within the same loop.
+        answerKeyFile.write(f"{questionNum + 1}. "
+                            f"{'ABCD'[answerOptions.index(correctAnswer)]}\n")
 
 quizFile.close()
 answerKeyFile.close()
